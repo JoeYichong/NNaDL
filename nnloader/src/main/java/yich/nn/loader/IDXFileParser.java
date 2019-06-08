@@ -2,14 +2,20 @@ package yich.nn.loader;
 
 import yich.base.util.BitUtil;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.zip.GZIPInputStream;
 
 public class IDXFileParser {
 
     public static IDXObject parse(String path) {
+        if (!Files.exists(Paths.get(path))) {
+            path = System.getProperty("user.dir") + File.separator + path;
+        }
         try (InputStream fis = new FileInputStream(path);
              InputStream is = new GZIPInputStream(fis);) {
             byte[] magic;
